@@ -152,36 +152,33 @@ class LinkedList {
       throw new Error("Index must be a non-negative integer");
     }
 
-    if (!this.head) {
-      throw new Error("List is empty");
+    if (index >= this.size()) {
+      throw new Error("No item with this index");
     }
 
     if (index === 0) {
       this.head = this.head.next;
       if (!this.head) {
-        // The list is now empty
         this.tail = null;
       }
-      return;
-    } else if (index > 0) {
+    } else {
       let currentNode = this.head;
       let count = 0;
 
-      while (currentNode.next) {
-        if (index === count) {
-          currentNode = currentNode.next;
-        } else {
-          count++;
-        }
+      while (count < index - 1) {
+        currentNode = currentNode.next;
+        count++;
+      }
 
-        if (!currentNode.nextNode) {
-          this.tail = currentNode;
-        }
+      currentNode.next = currentNode.next.next;
+
+      if (!currentNode.next) {
+        this.tail = currentNode;
       }
     }
   }
 }
-// Usage example
+
 const linkedList2 = new LinkedList();
 
 linkedList2.append("cat");
@@ -189,5 +186,6 @@ linkedList2.append("dog");
 linkedList2.append("cow");
 linkedList2.insertAt("duck", 3);
 linkedList2.toString();
-linkedList2.removeAt(0);
+linkedList2.removeAt(1);
 linkedList2.toString();
+console.log(linkedList2.size());
