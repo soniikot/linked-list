@@ -1,6 +1,6 @@
 import { Node } from "./node.mjs";
 
-class LinkedList {
+export class LinkedList {
   constructor() {
     this.head = null;
   }
