@@ -18,11 +18,6 @@ export class HashMap {
     let hashCode = this.hash(key);
     let bucket = this.buckets[hashCode];
 
-    if (!bucket) {
-      this.buckets[hashCode] = [];
-      bucket = this.bucket[hashCode];
-    }
-
     let item = bucket.find((item) => item.key === key);
     if (item) {
       item.value = value;
@@ -35,24 +30,31 @@ export class HashMap {
     let hashCode = this.hash(key);
     let bucket = this.buckets[hashCode];
 
-    if (!bucket) {
-      return undefined;
-    }
-
     let item = bucket.find((item) => item.key === key);
     return item ? item.value : undefined;
+  }
+
+  has(key) {
+    let hashCode = this.hash(key);
+    let bucket = this.buckets[hashCode];
+
+    let item = bucket.find((item) => item.key === key);
+    return !!item; // Return true if item is found, otherwise false
   }
 }
 
 /*if (index < 0 || index >= buckets.length) {
-        throw new Error("Trying to access index out of bound");
-      }
-    } */
+          throw new Error("Trying to access index out of bound");
+        }
+      } */
 
 let newHash = new HashMap(16);
-console.log(newHash);
 
 newHash.set("Kotova", "Sofia");
 newHash.set("Bazovkin", "Vladimir");
 newHash.set("Laskin", "Anuita");
+newHash.set("Katya", "Vasilieva");
+
 console.log(newHash);
+
+console.log(newHash.has("Bazovkin"));
