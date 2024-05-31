@@ -1,8 +1,11 @@
+import { LinkedList } from "./linkedList.mjs";
+
 export class HashMap {
   constructor(capacity) {
     this.capacity = capacity;
-    this.buckets = new Array(capacity).fill(null).map(() => []);
+    this.buckets = Array.from({ length: capacity }, () => new LinkedList());
   }
+
   hash(key) {
     let hashCode = 0;
 
@@ -18,11 +21,11 @@ export class HashMap {
     let hashCode = this.hash(key);
     let bucket = this.buckets[hashCode];
 
-    let item = bucket.find((item) => item.key === key);
+    let item = bucket.find(key);
     if (item) {
       item.value = value;
     } else {
-      bucket.push({ key, value });
+      bucket.append({ key, value });
     }
   }
 
@@ -30,7 +33,7 @@ export class HashMap {
     let hashCode = this.hash(key);
     let bucket = this.buckets[hashCode];
 
-    let item = bucket.find((item) => item.key === key);
+    let item = bucket.find(key);
     return item ? item.value : undefined;
   }
 
@@ -38,8 +41,70 @@ export class HashMap {
     let hashCode = this.hash(key);
     let bucket = this.buckets[hashCode];
 
-    let item = bucket.find((item) => item.key === key);
-    return !!item; // Return true if item is found, otherwise false
+    let item = bucket.find(key);
+    return !!item;
+  }
+
+  remove(key) {
+    let hashCode = this.hash(key);
+    let bucket = this.buckets[hashCode];
+
+    return bucket.pop(key);
+  }
+
+  length() {
+    let count = 0;
+    for (let bucket of this.buckets) {
+      if (bucket.head !== null) {
+        let currentNode = bucket.head;
+        while (currentNode) {
+          count++;
+          currentNode = currentNode.nextNode;
+        }
+      }
+    }
+    return count;
+  }
+
+  clear() {
+    for (let bucket of this.buckets) {
+      if (bucket.head !== null) {
+        bucket.pop();
+      }
+    }
+  }
+
+  keys() {
+    let arrayOfKeys = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket.head) {
+        arrayOfKeys.push(bucket.head.value.key);
+      } else {
+      }
+    });
+    return arrayOfKeys;
+  }
+
+  values() {
+    let arrayOfValues = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket.head) {
+        arrayOfKeys.push(bucket.head.value.value);
+      } else {
+      }
+    });
+    return arrayOfValues;
+  }
+
+  entries() {
+    let arrayOfEntries = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket.head) {
+        arrayOfEntries.push(bucket.head.value);
+      } else {
+      }
+    });
+    return arrayOfEntries;
   }
 }
 
@@ -57,4 +122,5 @@ newHash.set("Katya", "Vasilieva");
 
 console.log(newHash);
 
-console.log(newHash.has("Bazovkin"));
+console.log(newHash.entries());
+console.log(newHash);

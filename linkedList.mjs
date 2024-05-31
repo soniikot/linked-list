@@ -3,6 +3,7 @@ import { Node } from "./node.mjs";
 export class LinkedList {
   constructor() {
     this.head = null;
+    this.tail = null;
   }
 
   append(value) {
@@ -90,15 +91,13 @@ export class LinkedList {
 
   find(value) {
     let currentNode = this.head;
-    let count = 0;
     while (currentNode) {
       if (currentNode.value === value) {
-        return count;
+        return currentNode;
       }
       currentNode = currentNode.next;
-      count++;
     }
-    return null;
+    return false;
   }
 
   toString() {
